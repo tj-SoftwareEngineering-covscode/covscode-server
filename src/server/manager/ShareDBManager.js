@@ -6,15 +6,9 @@ import sharedb from "sharedb"
  */
 export default class ShareDBManager
 {
-  static instance = null
-
   constructor()
   {
-    this.backend = new sharedb()
+    this.sharedbService = new sharedb()
   }
 
-  static getInstance()
-  {
-
-  }
 }

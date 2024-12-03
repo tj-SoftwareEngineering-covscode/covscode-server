@@ -7,6 +7,7 @@
     "@teamwork/websocket-json-stream": "^2.0.0",
     "express": "^4.21.1",
     "express-ws": "^5.0.2",
+    "sharedb": "^5.1.1",
     "ws": "^8.18.0"
   }
 }

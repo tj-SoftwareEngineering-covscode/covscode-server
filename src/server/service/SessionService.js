@@ -1,16 +1,14 @@
-import RepoManager from "../Manager/RepoManager"
-import SessionManager from "../Manager/SessionManager"
-import ShareDBManager from "../Manager/ShareDBManager"
-import UserManager from "../Manager/UserManager"
+import RepoManager from "../manager/RepoManager.js"
+import SessionManager from "../manager/SessionManager.js"
+import UserManager from "../manager/UserManager.js"
 
 export default class SessionService  // 会话服务接口
 {
-  constructor(binaryManager,sessionManager,repoManager,userManager)  // 初始化
+  constructor()  // 初始化
   {
-    this.binaryManager = binaryManager
-    this.sessionManager = sessionManager
-    this.repoManager = repoManager
-    this.userManager = userManager
+    this.sessionManager = new SessionManager()
+    this.repoManager = new RepoManager()
+    this.userManager = new UserManager()
   }
   sessionConnect()  // 连接会话
   {

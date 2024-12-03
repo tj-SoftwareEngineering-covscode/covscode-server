@@ -1,7 +1,8 @@
 # covscode-server
 covscode项目服务器代码
-使用npm install express --save搭建好Node.js插件开发环境
 
+
+package.json当中有本项目的启动文件与依赖项的描述
 
 代码规范
 
