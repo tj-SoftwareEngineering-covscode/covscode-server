@@ -5,13 +5,13 @@ import UserManager from "../manager/UserManager.js"
 
 export default class SessionService  // 会话服务接口
 {
-  constructor()  // 初始化
+  constructor(binaryManager,sessionManager,repoManager,userManager)  // 初始化
   {
     this.repoLocation = "./src/tmp"
-    this.sessionManager = new SessionManager()
-    this.repoManager = new RepoManager()
-    this.userManager = new UserManager()
-    this.binaryManager = new BinaryManager()
+    this.sessionManager = sessionManager
+    this.repoManager = repoManager
+    this.userManager = userManager
+    this.binaryManager = binaryManager
   }
   sessionConnect()  // 连接会话
   {
@@ -25,9 +25,13 @@ export default class SessionService  // 会话服务接口
   {
 
   }
-  async classsifyMessage()
+  // 根据json内容解析分类消息
+  async classsifyMessage(action)
   {
-
+    if(action.type === "login")
+    {
+      //TODO: 登录操作
+    }
   }
   broadcastMessage()
   {
