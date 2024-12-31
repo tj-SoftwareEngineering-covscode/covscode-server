@@ -6,9 +6,23 @@ import sharedb from "sharedb"
  */
 export default class ShareDBManager
 {
+  static instance = null
   constructor()
   {
-    this.sharedbService = new sharedb()
+    let sharedbService = new sharedb()
+    this.sharedbService = sharedbService
+  }
+  /**
+   * 获取 ShareDBManager 的单例实例。
+   * @returns {ShareDBManager} 返回 ShareDBManager 的单例实例。
+   */
+  static getInstance()  /*获取ShareDB实例 */
+  {
+    if(!ShareDBManager.instance)
+    {
+      ShareDBManager.instance = new ShareDBManager()
+    }
+    return ShareDBManager.instance
   }
 
 }
