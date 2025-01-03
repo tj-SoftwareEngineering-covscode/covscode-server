@@ -42,6 +42,7 @@ app.listen(port, () => {
 
 app.ws("/websocket", async (ws, req) => {  // websocket接口路由
     console.log("连接已建立");
+    // 为客户端设置siteId
     let siteId = sessionManager.getSiteId()
     sessionManager.addSession(siteId,ws) // 创建新的会话
 
@@ -62,11 +63,12 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
 
     // 监听关闭事件（表示用户退出会话）
     ws.on("close",()=>{
+       // TODO:
+
         console.log("连接已经关闭");
     })
-    // 封装退出消息及siteId
+    // 返回给客户端siteId
     let siteIdDto = new SiteIdMessage(siteId)
-    // 发送退出消息
     ws.send(JSON.stringify(dataGenerator.object2Json(siteIdDto)))
 });
 

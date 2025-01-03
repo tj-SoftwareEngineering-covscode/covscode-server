@@ -1,8 +1,8 @@
-export default class SiteIdMessage {
+import { MessageType } from './BaseMessage';
+
+export default class SiteIdMessage extends BaseMessage {
   constructor(id) {
-    // 为客户端分配的siteId信息
-    this.messageType = "SiteIdMessage";
-    let siteId = parseInt(id);
-    this.siteId = siteId;
+    super(MessageType.SiteIdMessage);
+    this.siteId = parseInt(id);
   }
 }

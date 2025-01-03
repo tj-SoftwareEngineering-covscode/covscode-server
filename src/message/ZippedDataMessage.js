@@ -1,8 +1,10 @@
-export default class ZippedDataMessage
-{
-  constructor(data)
-  {
-    this.messageType = "ZippedDataMessage"
-    this.data = data
+import { MessageType } from './BaseMessage';
+
+export default class ZippedDataMessage extends BaseMessage {
+  constructor(repoId, users, data) {
+    super(MessageType.ZippedDataMessage);
+    this.repoId = repoId;
+    this.users = users;
+    this.data = data;
   }
 }

@@ -1,24 +1,25 @@
-
 export default class RepoFile
 {
-  constructor(filePath,openUsers)
+  constructor(filePath)
   {
     this.filePath = filePath
-    this.openUsers = openUsers
+    this.openingUsers = new Map()
   }
 
-  addUser()  // 添加仓库当中的User
+  addUser(user)  // 添加仓库当中的User
   {
-    
+    this.openingUsers.set(user.siteId,user)
   }
 
-  removeUser() //  移出仓库当中的User
-  {
-
+  removeOpenUser(siteId) {
+    this.openingUsers.delete(siteId);
   }
   
-  queryUser()  // 查询仓库当中的User
+  queryUser(siteId)  // 查询仓库当中的User
   {
-
+    if (this.openingUsers.has(siteId)) {
+      return this.openingUsers.get(siteId);
+    }
+    return null;
   }
 }

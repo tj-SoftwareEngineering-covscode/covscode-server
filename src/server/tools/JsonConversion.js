@@ -13,12 +13,11 @@ import SessionLeaveAction from "../../action/SessionLeaveAction";
 export default class JsonConversion
 {
   constructor() {
-    this.messageMap = {
-      //消息类型
-        "SiteIdMessage": SiteIdMessage, // 站点ID消息
-        "WebSocketMessage": WebSocketMessage, // WebSocket消息
-        "ZippedDataMessage": ZippedDataMessage, // 压缩数据消息 
-    };
+    // this.messageMap = {
+    //   //消息类型
+    //     "SiteIdMessage": SiteIdMessage, // 站点ID消息
+    //     "WebSocketMessage": WebSocketMessage, // WebSocket消息
+    // };
     this.actionMap = {
       //行为类型
       "FileOpenAction": FileOpenAction, // 打开文件
@@ -36,33 +35,17 @@ export default class JsonConversion
   // 根据json的type字段分类，并返回对应的类实例
   handleJsonData(data) {
     try {
-      const parsedData = JSON.parse(data).data;
-      const messageType = parsedData.messageType;
+      const parsedData = JSON.parse(data).data;//提取data字段数据
+      const actionType = parsedData.actionType;
 
-      // 处理消息类型
-      if (!(messageType in this.messageMap)) {
-        console.log("没有在messageMap中找到对应的消息类型");
+      if(!(actionType in this.actionMap)){
+        console.log("没有在actionMap中找到对应的操作类型");
         return null;
       }
 
-      const messageClass = this.messageMap[messageType];
-      const messageInstance = new messageClass(parsedData);
-
-      // 处理 WebSocket 消息时，进一步检查 actionType
-      if (messageClass === WebSocketMessage) {
-        const actionType = parsedData.actionType;
-        if (actionType && this.actionMap.hasOwnProperty(actionType)) {
-          const actionClass = this.actionMap[actionType];
-          actionInstance = new actionClass(parsedData);
-          return actionInstance;
-        } else {
-          console.log("没有在actionMap中找到对应的操作类型");
-          return null;
-        }
-      }
-
-      // 其他消息类型直接返回
-      return messageInstance;
+      const actionClass = this.actionMap[actionType];
+      actionInstance = new actionClass(parsedData);
+      return actionInstance;
     } catch (err) {
       console.log('输入的数据不是JSON格式,无法解析出现问题');
     }

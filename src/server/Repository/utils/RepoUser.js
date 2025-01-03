@@ -1,9 +1,8 @@
-
 export default class RepoUser
 {
-  constructor(userName,repoId,siteId)
+  constructor(userId,repoId,siteId)
   {
-    this.userName = userName
+    this.userId = userId
     this.repoId = repoId
     this.siteId = siteId
   }
