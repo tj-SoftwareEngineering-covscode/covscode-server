@@ -65,7 +65,7 @@ export default class SessionService  // 会话服务接口
   // 加入会话（添加用户，转发zip，广播消息）
   async joinSession(joinAction)
   {
-    let repo = this.repoManager.getRepoById(joinAction.repoId);
+    let repo = this.repoManager.getRepoById(joinAction.clientUser.repoId);
     console.log("repo",repo)
     let bData = await repo.userJoin(joinAction);
     this.userManager.addUser(joinAction.clientUser)
@@ -79,7 +79,7 @@ export default class SessionService  // 会话服务接口
       for (let i = 0; i < bData.length; i++) {
         bufferString += String.fromCharCode(bData[i])
       }
-    let zippedData = new ZippedDataMessage(joinAction.repoId,users,bufferString)
+    let zippedData = new ZippedDataMessage(joinAction.clientUser.repoId,users,bufferString)
 
     this.broadcast(repo,joinAction,[joinAction.clientUser.siteId])
 
