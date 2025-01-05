@@ -1,5 +1,7 @@
 import RepoEditor from "./utils/RepoEditor.js"
 import { zip } from "../tools/Zip.js"
+import path from "path";
+import fs from "fs"
 
 const repoLocation = "./src/tmp"
 
@@ -36,7 +38,7 @@ export default class Repository
   */
   static create(initAction)
   {
-    const binaryData = Buffer.from(initAction.content, 'utf8')
+    const binaryData = Buffer.from(initAction.content, "latin1")
     let unzipPath = path.join(repoLocation, initAction.clientUser.repoId) // 解压缩的路径 src/tmp/repoId
     let repo = new Repository(initAction.clientUser.repoId,unzipPath)
     repo.repoEditor.repoInit(binaryData)
