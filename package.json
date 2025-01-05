@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "@teamwork/websocket-json-stream": "^2.0.0",
+    "adm-zip": "^0.5.16",
     "express": "^4.21.1",
     "express-ws": "^5.0.2",
     "sharedb": "^5.1.1",
