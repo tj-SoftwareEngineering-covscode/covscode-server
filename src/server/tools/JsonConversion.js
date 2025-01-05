@@ -44,21 +44,39 @@ export default class JsonConversion {
   }
 
 // 将对象转换为json格式
-  object2Json(data) {
+  handleObjectData(data) {
     console.log("data:",data)
-    try{
-      var result = {
-        "data":Object.assign(data),
-        "success":true
+    try {
+      let messageData;
+      // 根据不同类型的消息进行不同处理
+      if (data.type === 'ZippedDataMessage') {
+          messageData = {
+              messageType: "ZippedDataMessage",
+              siteId: data.siteId,
+              users: data.users,
+              data: data.data,
+          };
+      } else {
+          // 默认处理
+          messageData = {
+              messageType: "WebSocketMessage",
+              data: data,
+              isSuccessful: true,
+              errorMessage: "",
+              errorCode: ""
+          };
       }
-      return result
-    }catch(err)
-    {
-      console.error("将类转换为Websocket可使用的数据时出错：",err)
-      var result = {
-        "success" : false
-      }
-      return result
-    }
-   }
+      
+      return messageData;
+  } catch (err) {
+      console.error("数据转换错误：", err);
+      return {
+          messageType: "WebSocketMessage",
+          data: null,
+          isSuccessful: false,
+          errorMessage: err.message,
+          errorCode: "ERROR_001"
+      };
+  }
+  }
 }

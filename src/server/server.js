@@ -68,8 +68,8 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
     })
     // 返回给客户端siteId
     let siteIdDto = new SiteIdMessage(siteId)
-    ws.send(JSON.stringify(dataGenerator.object2Json(siteIdDto)))
-    console.log(JSON.stringify(dataGenerator.object2Json(siteIdDto)))
+    ws.send(JSON.stringify(dataGenerator.handleObjectData(siteIdDto)))
+    console.log(JSON.stringify(dataGenerator.handleObjectData(siteIdDto)))
 });
 
 

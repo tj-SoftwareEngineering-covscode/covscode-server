@@ -69,13 +69,25 @@ export default class RepoEditor
   }
 
   /**
-   * 重命名文件
-   * @param {string} path 文件路径
-   * @param {string} name 原文件名
+   * 重命名文件或文件夹
+   * @param {string} path 完整的文件路径（包含文件名）
+   * @param {string} name 当前文件名
    * @param {string} newName 新文件名
    */
-  renameNode(path,name,newName) // 重命名文件
-  {
-    renameSync(resolve(this.repoPath,path,name),resolve(this.repoPath,path,newName))
+  renameNode(path, name, newName) {
+    try {
+        // 获取文件所在目录路径
+        const dirPath = dirname(path);
+        
+        // 构建完整的旧文件路径和新文件路径
+        const oldPath = resolve(this.repoPath, path);
+        const newPath = resolve(this.repoPath, dirPath, newName);
+        
+        // 执行重命名
+        renameSync(oldPath, newPath);
+    } catch (error) {
+        console.error(`重命名文件失败: ${name} -> ${newName}`, error);
+        throw error;
+    }
   }
 }

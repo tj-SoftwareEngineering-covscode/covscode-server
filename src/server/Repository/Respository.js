@@ -153,7 +153,7 @@ export default class Repository
    */
   createNode(createFileAction)
   {
-    this.repoEditor.createNode(createFileAction.path, createFileAction.name, createFileAction.isFile, createFileAction.content)
+    this.repoEditor.createNode(createFileAction.path, createFileAction.isFile, createFileAction.content)
   }
 
   /**
@@ -162,7 +162,7 @@ export default class Repository
    */
   deleteNode(deleteFileAction)
   {
-    this.repoEditor.deleteNode(deleteFileAction.path, deleteFileAction.name)
+    this.repoEditor.deleteNode(deleteFileAction.path)
   }
 
   /**

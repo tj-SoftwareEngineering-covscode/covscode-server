@@ -27,12 +27,6 @@ export default class SessionService  // 会话服务接口
     }
   }
 
-  action2Message(action)
-  {
-    let message = new WebSocketMessage(action,true,null,null);
-    return message;
-  }
-
   // 给不在siteIds列表中的用户广播action
   broadcast(repo, action, siteIds) {
     let keys = []
@@ -41,8 +35,7 @@ export default class SessionService  // 会话服务接口
     }
     keys.forEach((eachSid) => {
       if (!siteIds.includes(eachSid)) {
-        let message = this.action2Message(action);
-        this.sessionManager.sendActionById(eachSid, message)
+        this.sessionManager.sendActionById(eachSid, action)
       }
     });
   }
@@ -54,8 +47,7 @@ export default class SessionService  // 会话服务接口
       keys.push(key);
     }
     keys.forEach((eachSid) => {
-      let message = this.action2Message(action);
-      this.sessionManager.sendActionById(eachSid, message);
+      this.sessionManager.sendActionById(eachSid, action);
     });
   }
 
