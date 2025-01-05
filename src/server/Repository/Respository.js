@@ -1,6 +1,8 @@
 import RepoEditor from "./utils/RepoEditor.js"
 import { zip } from "../tools/Zip.js"
 
+const repoLocation = "./src/tmp"
+
 export default class Repository
 {
   /**
@@ -17,14 +19,13 @@ export default class Repository
    */
   constructor(repoId,repoPath)
   {
-    this.repoLocation = "./src/tmp"
     this.repoId = repoId
     this.repoPath = repoPath
     this.repoEditor = new RepoEditor(repoPath)
     this.userMap = new Map()
     this.fileMap = new Map()
-    if (!fs.existsSync(this.repoLocation)) {
-        fs.mkdirSync(this.repoLocation, { recursive: true })
+    if (!fs.existsSync(repoLocation)) {
+        fs.mkdirSync(repoLocation, { recursive: true })
     }
   }
 
@@ -33,10 +34,10 @@ export default class Repository
   * @param {Object} initAction SessionInitAction
   * @returns {Repository} 返回仓库对象
   */
-  create(initAction)
+  static create(initAction)
   {
     const binaryData = Buffer.from(initAction.content, 'utf8')
-    let unzipPath = path.join(this.repoLocation, initAction.clientUser.repoId) // 解压缩的路径 src/tmp/repoId
+    let unzipPath = path.join(repoLocation, initAction.clientUser.repoId) // 解压缩的路径 src/tmp/repoId
     let repo = new Repository(initAction.clientUser.repoId,unzipPath)
     repo.repoEditor.repoInit(binaryData)
     repo.addUser(initAction)
