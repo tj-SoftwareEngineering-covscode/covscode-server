@@ -106,8 +106,11 @@ export default class SessionService  // 会话服务接口
   openFile(openFileAction){
     let user = openFileAction.clientUser;
     let repo = this.repoManager.getRepoById(user.repoId)
+    console.log("下面打开文件")
     repo.openFile(openFileAction)
+    console.log("下面广播消息")
     this.broadcast(repo, openFileAction, [user.siteId])
+    console.log("====================================")
   }
 
   // 关闭文件动作

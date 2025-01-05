@@ -58,15 +58,7 @@ export default class RepoEditor
       console.error(`创建文件失败,路径=${filePath}`,err)
       }
   }
-  openFile(path)
-  {
-    return readFileSync(resolve(this.repoPath,path))
-  }
 
-  closeFile(path)
-  {
-    return unlinkSync(resolve(this.repoPath,path))
-  }
   /**
    * 删除文件或文件夹
    * @param {string} path 文件路径

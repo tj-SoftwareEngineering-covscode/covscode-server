@@ -1,4 +1,5 @@
 import RepoEditor from "./utils/RepoEditor.js"
+import RepoFile from "./utils/RepoFile.js"
 import { zip } from "../tools/Zip.js"
 import path from "path";
 import fs from "fs"
@@ -90,7 +91,6 @@ export default class Repository
     return bData
   }
   
-
   /**
    * 用户离开仓库
    * @param {String} siteId 用户id
@@ -121,7 +121,20 @@ export default class Repository
    */
   openFile(openFileAction)
   {
-    this.repoEditor.openFile(openFileAction.path)
+    let path = openFileAction.path; // 文件的相对路径
+    let user = openFileAction.clientUser;
+
+    let coFile;
+    // 如果这个文件此前就已经被记录了，那么
+    if (this.fileMap.has(path)) {
+      coFile = this.fileMap.get(path);
+      // 记录哪个用户打开了此文件
+      coFile.addOpeningUser(user);
+    } else {
+      coFile = new RepoFile(path);
+      coFile.addOpeningUser(user);
+      this.fileMap.set(path, coFile);
+    }
   }
 
   /**
