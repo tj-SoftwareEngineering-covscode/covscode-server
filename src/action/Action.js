@@ -12,11 +12,6 @@ export const ActionType = {
 }
 
 export default class Action {
-  /**
-   * 
-   * @param {ActionType} actionType 
-   * @param {RepoUser} clientUser 
-   */
   constructor(actionType, clientUser) {
     this.actionType = actionType
     this.clientUser = clientUser

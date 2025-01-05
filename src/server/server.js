@@ -49,6 +49,7 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
     ws.on("message",async(message)=>{
         if(typeof message === "string")   // 对不同的action执行不同的action
         {
+            console.log(message)
             let action = dataGenerator.handleJsonData(message)
             await sessionService.classsifyMessage(action)
         }
@@ -57,8 +58,6 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
             // 2. 解压
             sessionService.saveBinaryData(ws,message)
         }
-
-        console.log("收到message", message);
     })
 
     // 监听关闭事件（表示用户退出会话）
@@ -70,6 +69,7 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
     // 返回给客户端siteId
     let siteIdDto = new SiteIdMessage(siteId)
     ws.send(JSON.stringify(dataGenerator.object2Json(siteIdDto)))
+    console.log(JSON.stringify(dataGenerator.object2Json(siteIdDto)))
 });
 
 

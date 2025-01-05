@@ -35,7 +35,7 @@ export default class JsonConversion {
       }
 
       const actionClass = this.actionMap[actionType]
-      actionInstance = new actionClass(parsedData)
+      var actionInstance = new actionClass(parsedData)
       return actionInstance;
     } catch (err) {
       console.log('输入的数据不是JSON格式,无法解析出现问题');
