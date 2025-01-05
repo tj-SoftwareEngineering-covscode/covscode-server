@@ -30,7 +30,7 @@ export default class RepoEditor
    * @param {boolean} isFile 是否是文件
    * @param {string} context 文件内容
    */
-  createNode(path,name,isFile,context) // 创建文件
+  createNode(path,isFile,context) // 创建文件
   {
     try
     {
