@@ -70,7 +70,7 @@ export default class SessionService  // 会话服务接口
     let bData = await repo.userJoin(joinAction);
     this.userManager.addUser(joinAction.clientUser)
     let users = []
-    for(let user of repo.userMap)
+    for(let user of repo.userMap.values())
     {
       users.push(user)
     }
