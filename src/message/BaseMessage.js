@@ -1,6 +1,7 @@
 export const MessageType = {
   WebSocketMessage: 'WebSocketMessage',
-  SiteIdMessage: 'SiteIdMessage'
+  SiteIdMessage: 'SiteIdMessage',
+  ZippedDataMessage: 'ZippedDataMessage'
 }
 
 export default class BaseMessage {
