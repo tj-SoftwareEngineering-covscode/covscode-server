@@ -1,6 +1,7 @@
-import { mkdir, mkdirSync, writeFileSync } from "fs"
+import { mkdir, mkdirSync, writeFileSync, renameSync, unlinkSync,rmdirSync } from "fs"
 import { unzip } from "../../tools/Zip.js"
-import { resolve } from "path"
+import { resolve,dirname } from "path"
+import fs from "fs"
 
 // 进行服务器端仓库文件管理
 export default class RepoEditor
@@ -62,10 +63,22 @@ export default class RepoEditor
   /**
    * 删除文件或文件夹
    * @param {string} path 文件路径
+   * @param {boolean} isFile 是否是文件
    */
-  deleteNode(path) // 删除文件
-  {
-    unlinkSync(resolve(this.repoPath,path))
+  deleteNode(path,isFile) {
+    try {
+      const fullPath = resolve(this.repoPath, path);
+
+      
+      if (isFile) {
+        unlinkSync(fullPath);
+      } else {
+        rmdirSync(fullPath);
+      }
+    } catch (error) {
+      console.error(`删除文件失败, 路径=${path}`, error);
+      throw error;
+    }
   }
 
   /**

@@ -63,7 +63,7 @@ export default class Repository
    */
   innerCloseFile(path, siteId) {
     let repoFile = this.fileMap.get(path)
-    repoFile.removeOpenUser(siteId)
+    repoFile.removeOpeningUser(siteId)
   }
 
   /**
@@ -162,7 +162,7 @@ export default class Repository
    */
   deleteNode(deleteFileAction)
   {
-    this.repoEditor.deleteNode(deleteFileAction.path)
+    this.repoEditor.deleteNode(deleteFileAction.path, deleteFileAction.isFile)
   }
 
   /**
