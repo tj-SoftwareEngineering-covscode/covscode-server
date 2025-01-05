@@ -48,25 +48,14 @@ export default class JsonConversion {
     console.log("data:",data)
     try {
       let messageData;
-      // 根据不同类型的消息进行不同处理
-      if (data.type === 'ZippedDataMessage') {
-          messageData = {
-              messageType: "ZippedDataMessage",
-              siteId: data.siteId,
-              users: data.users,
-              data: data.data,
-          };
-      } else {
-          // 默认处理
-          messageData = {
-              messageType: "WebSocketMessage",
-              data: data,
-              isSuccessful: true,
-              errorMessage: "",
-              errorCode: ""
-          };
-      }
-      
+        messageData = {
+                messageType: "WebSocketMessage",
+                data: data,
+                isSuccessful: true,
+                errorMessage: "",
+                errorCode: ""
+        };
+        
       return messageData;
   } catch (err) {
       console.error("数据转换错误：", err);

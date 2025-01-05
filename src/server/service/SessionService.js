@@ -55,7 +55,10 @@ export default class SessionService  // 会话服务接口
   InitSession(initAction)
   {
     let newRepo = Repository.create(initAction)
+    console.log("repoId:",newRepo.repoId)
     this.repoManager.addRepo(newRepo)
+    let repo = this.repoManager.getRepoById(newRepo.repoId);
+    console.log("用户创建的仓库：",repo)
     this.userManager.addUser(initAction.clientUser)
   }
 
@@ -63,6 +66,7 @@ export default class SessionService  // 会话服务接口
   async joinSession(joinAction)
   {
     let repo = this.repoManager.getRepoById(joinAction.repoId);
+    console.log("repo",repo)
     let bData = await repo.userJoin(joinAction);
     this.userManager.addUser(joinAction.clientUser)
     let users = []
@@ -150,8 +154,7 @@ export default class SessionService  // 会话服务接口
       let zippedData = await this.joinSession(action);
       let ws = this.sessionManager.getSessionById(action.clientUser.siteId);
       if (ws != null) {
-        let dataGenerator = new JsonConversion();
-        ws.send(JSON.stringify(dataGenerator.handleObjectData(zippedData)));
+        ws.send(JSON.stringify(zippedData));
       }
     }
     else if(action instanceof SessionLeaveAction)
