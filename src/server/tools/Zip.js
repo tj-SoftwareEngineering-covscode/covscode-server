@@ -1,25 +1,15 @@
-import AdmZip from 'adm-zip'
+import AdmZip from 'adm-zip';
 
-export default class Zip
-{
-  constructor()
-  {
-    
-  }
-  
-  async zip(path)  // 将该路径的文件夹压缩成ZIP文件
-  {
-    const zip = new AdmZip();
-    await zip.addLocalFolderPromise(path, {});
-    return await zip.toBufferPromise();
-  }
+export async function zip(path){
+  const zip = new AdmZip();
+  await zip.addLocalFolderPromise(path, {});
+  return await zip.toBufferPromise();
+}
 
-  async unzip(path,data) // 将该路径的ZIP数据解压
-  {
-    const zip = new AdmZip(data);
-    return new Promise((res, rej) => {
-      zip.extractAllToAsync(path, true, true, err => (err ? rej(err) : res()));
-      res();
-    });
-  }
+export async function unzip(path, data) {
+  const zip = new AdmZip(data);
+  return new Promise((res, rej) => {
+    zip.extractAllToAsync(path, true, true, err => (err ? rej(err) : res()));
+    res();
+  });
 }

@@ -1,6 +1,5 @@
-import RepoEditor from "./utils/RepoEditor"
-import RepoFile from "./utils/RepoFile"
-import zip from "./utils/zip"
+import RepoEditor from "./utils/RepoEditor.js"
+import { zip } from "../tools/Zip.js"
 
 export default class Repository
 {
@@ -107,33 +106,55 @@ export default class Repository
           clientUser: user,
           path: value.filePath,
         }
-        this.fileClose(closeFileAction)
+        this.closeFile(closeFileAction)
       }
     }
     this.userMap.delete(siteId)
   }
 
   /**
+   * 打开文件
+   * @param {Object} openFileAction 打开文件动作
+   */
+  openFile(openFileAction)
+  {
+    this.repoEditor.openFile(openFileAction.path, openFileAction.name)
+  }
+
+  /**
    * 关闭文件
    * @param {Object} closeFileAction 关闭文件动作
    */
-  fileClose(closeFileAction) {
+  closeFile(closeFileAction) {
     let path = closeFileAction.path
     let siteId = closeFileAction.clientUser.siteId
     this.innerCloseFile(path, siteId)
   }
-
-
-
-
-
-  getContent(path)
+  
+  /**
+   * 创建文件或文件夹
+   * @param {Object} createFileAction 创建节点动作
+   */
+  createNode(createFileAction)
   {
-    return this.repoEditor.getContent(path)
+    this.repoEditor.createNode(createFileAction.path, createFileAction.name, createFileAction.isFile, createFileAction.content)
   }
 
-  excuteMessage() // 执行操作
+  /**
+   * 删除文件或文件夹
+   * @param {Object} deleteFileAction 删除节点动作
+   */
+  deleteNode(deleteFileAction)
   {
+    this.repoEditor.deleteNode(deleteFileAction.path, deleteFileAction.name)
+  }
 
+  /**
+   * 重命名文件或文件夹
+   * @param {Object} renameFileAction 重命名节点动作
+   */
+  renameNode(renameFileAction)
+  {
+    this.repoEditor.renameNode(renameFileAction.path, renameFileAction.name, renameFileAction.newName)
   }
 }

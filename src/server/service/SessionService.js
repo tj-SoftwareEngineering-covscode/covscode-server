@@ -1,14 +1,15 @@
-import SessionInitAction from "../action/SessionInitAction.js"
-import SessionJoinAction from "../action/SessionJoinAction.js"
-import SessionLeaveAction from "../action/SessionLeaveAction.js"
-import FileOpenAction from "../action/FileOpenAction.js"
-import FileCloseAction from "../action/FileCloseAction.js"
-import NodeCreateAction from "../action/NodeCreateAction.js"
-import NodeDeleteAction from "../action/NodeDeleteAction.js"
-import NodeRenameAction from "../action/NodeRenameAction.js"
+import SessionInitAction from "../../action/SessionInitAction.js"
+import SessionJoinAction from "../../action/SessionJoinAction.js"
+import SessionLeaveAction from "../../action/SessionLeaveAction.js"
+import FileOpenAction from "../../action/FileOpenAction.js"
+import FileCloseAction from "../../action/FileCloseAction.js"
+import NodeCreateAction from "../../action/NodeCreateAction.js"
+import NodeDeleteAction from "../../action/NodeDeleteAction.js"
+import NodeRenameAction from "../../action/NodeRenameAction.js"
 import Repository from "../Repository/Respository.js"
 import ZippedDataMessage from "../../message/ZippedDataMessage.js"
-import fs from 'fs';
+import JsonConversion from "../tools/JsonConversion.js"
+import fs from 'fs'
 
 
 export default class SessionService  // 会话服务接口
@@ -21,20 +22,31 @@ export default class SessionService  // 会话服务接口
     this.userManager = userManager
     this.binaryManager = binaryManager
     if (!fs.existsSync(this.repoLocation)) {
-        fs.mkdirSync(this.repoLocation, { recursive: true });
+        fs.mkdirSync(this.repoLocation, { recursive: true })
     }
   }
 
   // 给不在siteIds列表中的用户广播action
   broadcast(repo, action, siteIds) {
+    let keys = []
+    for (const [key, value] of repo.userMap.entries()) {
+      keys.push(key)
+    }
+    keys.forEach((eachSid) => {
+      if (!siteIds.includes(eachSid)) {
+        this.sessionManager.sendActionById(eachSid, action)
+      }
+    });
+  }
+
+   // 给Repo里所有用户广播Action(用于文件操作)
+   broadcastNodeAction(repo, action) {
     let keys = [];
     for (const [key, value] of repo.userMap.entries()) {
       keys.push(key);
     }
     keys.forEach((eachSid) => {
-      if (!siteIds.includes(eachSid)) {
-        this.sessionManager.sendActionById(eachSid, action);
-      }
+      this.sessionManager.sendActionById(eachSid, action);
     });
   }
 
@@ -55,16 +67,16 @@ export default class SessionService  // 会话服务接口
     let users = []
     for(let user of repo.userMap)
     {
-      users.push(user) 
+      users.push(user)
     }
     // 将bData转换为字符串传输
     let bufferString = "";
       for (let i = 0; i < bData.length; i++) {
-        bufferString += String.fromCharCode(bData[i]);
+        bufferString += String.fromCharCode(bData[i])
       }
     let zippedData = new ZippedDataMessage(joinAction.repoId,users,bufferString)
 
-    this.broadcast(repo,joinAction,[joinAction.clientUser.siteId]);
+    this.broadcast(repo,joinAction,[joinAction.clientUser.siteId])
 
     return zippedData;
   }
@@ -72,12 +84,12 @@ export default class SessionService  // 会话服务接口
   // 离开会话（删除用户，广播消息）
   leaveSession(leaveAction)
   {
-    let repo = this.repoManager.getRepoById(leaveAction.clientUser.repoId);
-    let user = leaveAction.clientUser;
+    let repo = this.repoManager.getRepoById(leaveAction.clientUser.repoId)
+    let user = leaveAction.clientUser
     if (repo != null && this.userManager.userExists(user.siteId)) {
-      repo.userLeave(user.siteId);
-      this.broadcast(repo, leaveAction, [user.siteId]);
-      this.userManager.removeUser(user.siteId);
+      repo.userLeave(user.siteId)
+      this.broadcast(repo, leaveAction, [user.siteId])
+      this.userManager.removeUser(user.siteId)
     }
   }
   
@@ -86,28 +98,41 @@ export default class SessionService  // 会话服务接口
     let user = openFileAction.clientUser;
     let repo = this.repoManager.getRepoById(user.repoId)
     repo.openFile(openFileAction)
-    this.broadcast(repo, openFileAction, [user.siteId]);
+    this.broadcast(repo, openFileAction, [user.siteId])
   }
 
   // 关闭文件动作
   closeFile(closeFileAction){
     let repo = this.repoManager.getRepoById(closeFileAction.clientUser.repoId)
     repo.closeFile(closeFileAction)
-    this.broadcast(repo, closeFileAction, [closeFileAction.clientUser.siteId]);
+    this.broadcast(repo, closeFileAction, [closeFileAction.clientUser.siteId])
   }
 
-  sessionConnect()  // 连接会话
+  // 创建文件
+  createNode(createFileAction)
   {
-
+    let repo = this.repoManager.getRepoById(createFileAction.clientUser.repoId)
+    repo.createNode(createFileAction)
+    this.broadcastNodeAction(repo, createFileAction)
   }
-  sendMessage()  // 发送更改信息
+
+  // 删除文件
+  deleteNode(deleteFileAction)
   {
+    let repo = this.repoManager.getRepoById(deleteFileAction.clientUser.repoId)
+    repo.deleteNode(deleteFileAction)
+    this.broadcastNodeAction(repo, deleteFileAction)
 
   }
-  proceessMessage() // 处理信息
+
+  // 重命名文件
+  renameNode(renameFileAction)
   {
-
+    let repo = this.repoManager.getRepoById(renameFileAction.clientUser.repoId)
+    repo.renameNode(renameFileAction)
+    this.broadcastNodeAction(repo, renameFileAction)
   }
+
   // 根据json内容解析分类消息
   async classsifyMessage(action)
   {
@@ -121,7 +146,7 @@ export default class SessionService  // 会话服务接口
       let zippedData = await this.joinSession(action);
       let ws = this.sessionManager.getSessionById(action.clientUser.siteId);
       if (ws != null) {
-        let dataGenerator = new Json2Data();
+        let dataGenerator = new JsonConversion();
         ws.send(JSON.stringify(dataGenerator.handleObjectData(zippedData)));
       }
     }
@@ -139,27 +164,15 @@ export default class SessionService  // 会话服务接口
     }
     else if(action instanceof NodeCreateAction)
     {
-      this.repoManager.createNode(action.repoId,action.nodeId);
+      this.createNode(action);
     }
     else if(action instanceof NodeDeleteAction)
     {
-      this.repoManager.deleteNode(action.repoId,action.nodeId);
+      this.deleteNode(action);
     }
     else if(action instanceof NodeRenameAction)
     {
-      this.repoManager.renameNode(action.repoId,action.nodeId,action.newName);
+      this.renameNode(action);
     }
-  }
-  broadcastMessage()
-  {
-
-  }
-  
-
-  saveBinaryData(ws,BinaryData)  // 存储二进制数据
-  {
-    let siteId = this.sessionManager.getIdBySession(ws);
-    this.binaryManager.addRepoInfo(siteId, BinaryData);
-
   }
 }

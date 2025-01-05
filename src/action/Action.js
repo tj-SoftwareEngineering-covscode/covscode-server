@@ -1,4 +1,4 @@
-import RepoUser from "../server/Repository/utils/RepoUser";
+import RepoUser from "../server/Repository/utils/RepoUser.js"
 
 export const ActionType = {
   FileOpenAction: 'FileOpenAction',
@@ -18,8 +18,8 @@ export default class Action {
    * @param {RepoUser} clientUser 
    */
   constructor(actionType, clientUser) {
-    this.actionType = actionType;
-    this.clientUser = clientUser;
-    this.time = new Date();
+    this.actionType = actionType
+    this.clientUser = clientUser
+    this.time = new Date()
   }
 }

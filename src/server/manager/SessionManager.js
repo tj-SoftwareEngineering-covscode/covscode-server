@@ -1,3 +1,4 @@
+import JsonConversion from "../tools/JsonConversion.js"
 
 export default class SessionManager
 {
@@ -10,6 +11,7 @@ export default class SessionManager
 
 
   // 创建新的会话id，用时间戳＋随机数字来组合
+  // 示例：1719999999999-123
   getSiteId()
   {
     return `${Date.now()}-${Math.floor(Math.random() * 1000)}`;
@@ -20,12 +22,6 @@ export default class SessionManager
   addSession(siteId,session)
   {
     this.sessionMap.set(siteId,session)
-  }
-
-  // 删除会话
-  removeSession(siteId)
-  {
-  
   }
 
   // 根据id获取会话
@@ -52,7 +48,7 @@ export default class SessionManager
   sendActionById(siteId, action) {
     if (this.sessionMap.has(siteId)) {
       let ws = this.sessionMap.get(siteId);
-      let dataGenerator = new Json2Data();
+      let dataGenerator = new JsonConversion();
       ws.send(JSON.stringify(dataGenerator.handleObjectData(action)));
     }
   }

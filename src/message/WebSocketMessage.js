@@ -1,5 +1,5 @@
 import { MessageType } from './BaseMessage';
-import Action from '../action/Action';
+import Action from '../action/Action.js';
 
 export default class WebSocketMessage extends BaseMessage {
   data;
@@ -8,14 +8,13 @@ export default class WebSocketMessage extends BaseMessage {
   errorCode;
   /**
    * 
-   * @param {MessageType} messageType 
    * @param {Action} data 
    * @param {boolean} isSuccessful 
    * @param {string} errorMessage 
    * @param {string} errorCode 
    */
-  constructor(messageType, data, isSuccessful, errorMessage, errorCode) {
-    super(messageType);
+  constructor(data, isSuccessful, errorMessage, errorCode) {
+    super(MessageType.WebSocketMessage);
     this.data = data;
     this.isSuccessful = isSuccessful;
     this.errorMessage = errorMessage;

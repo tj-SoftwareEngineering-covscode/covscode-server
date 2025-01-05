@@ -1,4 +1,4 @@
-import { MessageType } from './BaseMessage';
+import BaseMessage,{MessageType} from './BaseMessage.js';
 
 export default class ZippedDataMessage extends BaseMessage {
   constructor(repoId, users, data) {

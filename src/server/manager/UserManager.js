@@ -1,5 +1,8 @@
-import RepoUser from "../Repository/utils/RepoUser";
+import RepoUser from "../Repository/utils/RepoUser.js"
 
+/**
+ * 用户管理器
+ */
 export default class UserManager
 {
   constructor()
@@ -22,9 +25,9 @@ export default class UserManager
     this.userMap.delete(siteId)
   }
 
-  getUser()  // 获取用户
+  getUserById(siteId)  // 获取用户
   {
-
+    return this.userMap.get(siteId)
   }
   userExists(siteId)  // 查询用户
   {

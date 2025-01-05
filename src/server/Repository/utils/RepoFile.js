@@ -6,16 +6,25 @@ export default class RepoFile
     this.openingUsers = new Map()
   }
 
-  addUser(user)  // 添加仓库当中的User
+  addOpeningUser(user)  // 添加仓库当中的User
   {
     this.openingUsers.set(user.siteId,user)
   }
 
-  removeOpenUser(siteId) {
+  getOpeningUser(siteId)
+  {
+    if(this.openingUsers.has(siteId))
+    {
+      return this.openingUsers.get(siteId)
+    }
+    return null
+  }
+
+  removeOpeningUser(siteId) {
     this.openingUsers.delete(siteId);
   }
   
-  queryUser(siteId)  // 查询仓库当中的User
+  queryOpeningUser(siteId)  // 查询仓库当中的User
   {
     if (this.openingUsers.has(siteId)) {
       return this.openingUsers.get(siteId);

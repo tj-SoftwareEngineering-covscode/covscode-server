@@ -1,8 +1,9 @@
-export default class SessionJoinAction {
+import Action from "./Action.js";
+
+export default class SessionJoinAction extends Action{
   constructor(data) {
-    let processedData = data; // 需要处理的数据直接从JSON数据中获取
-    Object.assign(this, processedData);
-    // 此消息主要包含以下信息：
+    super(ActionType.SessionJoinAction, data.clientUser);
+    Object.assign(this, data);
     /*
           actionType: "SessionJoinAction"
           clientUser: { 

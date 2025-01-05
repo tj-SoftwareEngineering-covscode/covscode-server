@@ -1,6 +1,6 @@
-import { mkdir, mkdirSync, writeFileSync } from "fs";
-import { zip, unzip} from "../tools/Zip";
-import { resolve } from "path";
+import { mkdir, mkdirSync, writeFileSync } from "fs"
+import { unzip } from "../../tools/Zip.js"
+import { resolve } from "path"
 
 // 进行服务器端仓库文件管理
 export default class RepoEditor
@@ -23,24 +23,59 @@ export default class RepoEditor
     unzip(this.repoPath,repoData)
   }
 
-  createFile(path,context,isDir) // 创建文件
+  /**
+   * 创建文件
+   * @param {string} path 文件路径
+   * @param {string} name 文件名
+   * @param {boolean} isFile 是否是文件
+   * @param {string} context 文件内容
+   */
+  createNode(path,name,isFile,context) // 创建文件
   {
     try
     {
       //合并路径
-      const filePath = resolve(this.repoPath,path)
-      if(isDir)
+      const filePath = resolve(this.repoPath,path,name)
+      if(!isFile)
       {
       mkdirSync(filePath)
-    }
-    else
+      }
+      else
       {
-        writeFileSync(filePath,context)
+        if(context)
+        {
+          writeFileSync(filePath,context)
+        }
+        else
+        {
+          writeFileSync(filePath,"")
+        }
       }
     }
     catch(err)
     {
-      console.error(`创建文件失败,路径=${path}`,err)
+      console.error(`创建文件失败,路径=${filePath}`,err)
       }
+  }
+
+  /**
+   * 删除文件或文件夹
+   * @param {string} path 文件路径
+   * @param {string} name 文件名
+   */
+  deleteNode(path,name) // 删除文件
+  {
+    unlinkSync(resolve(this.repoPath,path,name))
+  }
+
+  /**
+   * 重命名文件
+   * @param {string} path 文件路径
+   * @param {string} name 原文件名
+   * @param {string} newName 新文件名
+   */
+  renameNode(path,name,newName) // 重命名文件
+  {
+    renameSync(resolve(this.repoPath,path,name),resolve(this.repoPath,path,newName))
   }
 }

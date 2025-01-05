@@ -1,7 +1,9 @@
-export default class SessionInitAction {
+import Action from "./Action.js";
+
+export default class SessionInitAction extends Action{
   constructor(data) {
-    let processedData = data; // 需要处理的数据直接从JSON数据中获取
-    Object.assign(this, processedData);
+    super(ActionType.SessionInitAction, data.clientUser);
+    Object.assign(this, data);
     // 此消息主要包含以下信息：
     /*
           actionType: "SessionInitAction"
