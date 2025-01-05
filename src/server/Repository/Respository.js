@@ -100,19 +100,6 @@ export default class Repository
     if (siteId == null) {
       return
     }
-    // 先将该用户的所有文件给关了，实际上客户端已经完成了这个操作，但是为了防止意外服务端也做此操作
-    for (const [key, value] of this.fileMap) {
-      let user = value.queryUser(siteId)
-      if (user) {
-        let closeFileAction = {
-          actionType: "FileCloseAction",
-          clientUser: user,
-          path: value.filePath,
-        }
-        this.closeFile(closeFileAction)
-      }
-    }
-    this.userMap.delete(siteId)
   }
 
   /**
