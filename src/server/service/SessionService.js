@@ -117,7 +117,7 @@ export default class SessionService  // 会话服务接口
   {
     let repo = this.repoManager.getRepoById(createFileAction.clientUser.repoId)
     repo.createNode(createFileAction)
-    this.broadcastNodeAction(repo, createFileAction)
+    this.broadcast(repo, createFileAction, [createFileAction.clientUser.siteId])
   }
 
   // 删除文件
@@ -125,7 +125,7 @@ export default class SessionService  // 会话服务接口
   {
     let repo = this.repoManager.getRepoById(deleteFileAction.clientUser.repoId)
     repo.deleteNode(deleteFileAction)
-    this.broadcastNodeAction(repo, deleteFileAction)
+    this.broadcast(repo, deleteFileAction, [deleteFileAction.clientUser.siteId])
 
   }
 
@@ -134,7 +134,7 @@ export default class SessionService  // 会话服务接口
   {
     let repo = this.repoManager.getRepoById(renameFileAction.clientUser.repoId)
     repo.renameNode(renameFileAction)
-    this.broadcastNodeAction(repo, renameFileAction)
+    this.broadcast(repo, renameFileAction, [renameFileAction.clientUser.siteId])
   }
 
   // 根据json内容解析分类消息
