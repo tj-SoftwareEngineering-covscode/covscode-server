@@ -10,7 +10,7 @@ export default class RepoEditor
     this.repoPath = repoPath
   }
 
-  repoInit(repoData)  // 创建仓库
+  async repoInit(binaryData)  // 创建仓库
   {
     mkdir(this.repoPath, { recursive: true }, (err) => {
       if (err) {
@@ -20,13 +20,12 @@ export default class RepoEditor
     });
 
     // 解压仓库
-    unzip(this.repoPath,repoData)
+    unzip(this.repoPath,binaryData)
   }
 
   /**
    * 创建文件
    * @param {string} path 文件路径
-   * @param {string} name 文件名
    * @param {boolean} isFile 是否是文件
    * @param {string} context 文件内容
    */
@@ -35,7 +34,9 @@ export default class RepoEditor
     try
     {
       //合并路径
-      const filePath = resolve(this.repoPath,path,name)
+      console.log("根目录路径",this.repoPath)
+      const filePath = resolve(this.repoPath,path)
+      console.log(  "创建文件路径为：",filePath)
       if(!isFile)
       {
       mkdirSync(filePath)
@@ -57,15 +58,22 @@ export default class RepoEditor
       console.error(`创建文件失败,路径=${filePath}`,err)
       }
   }
+  openFile(path)
+  {
+    return readFileSync(resolve(this.repoPath,path))
+  }
 
+  closeFile(path)
+  {
+    return unlinkSync(resolve(this.repoPath,path))
+  }
   /**
    * 删除文件或文件夹
    * @param {string} path 文件路径
-   * @param {string} name 文件名
    */
-  deleteNode(path,name) // 删除文件
+  deleteNode(path) // 删除文件
   {
-    unlinkSync(resolve(this.repoPath,path,name))
+    unlinkSync(resolve(this.repoPath,path))
   }
 
   /**

@@ -45,6 +45,7 @@ export default class JsonConversion {
 
 // 将对象转换为json格式
   object2Json(data) {
+    console.log("data:",data)
     try{
       var result = {
         "data":Object.assign(data),

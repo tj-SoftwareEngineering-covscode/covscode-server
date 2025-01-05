@@ -49,7 +49,7 @@ export default class SessionManager
     if (this.sessionMap.has(siteId)) {
       let ws = this.sessionMap.get(siteId);
       let dataGenerator = new JsonConversion();
-      ws.send(JSON.stringify(dataGenerator.handleObjectData(action)));
+      ws.send(JSON.stringify(dataGenerator.object2Json(action)));
     }
   }
 }

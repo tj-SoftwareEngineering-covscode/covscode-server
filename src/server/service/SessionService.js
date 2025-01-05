@@ -9,6 +9,7 @@ import NodeRenameAction from "../../action/NodeRenameAction.js"
 import Repository from "../Repository/Respository.js"
 import ZippedDataMessage from "../../message/ZippedDataMessage.js"
 import JsonConversion from "../tools/JsonConversion.js"
+import WebSocketMessage from "../../message/WebSocketMessage.js"
 import fs from 'fs'
 
 
@@ -26,6 +27,12 @@ export default class SessionService  // 会话服务接口
     }
   }
 
+  action2Message(action)
+  {
+    let message = new WebSocketMessage(action,true,null,null);
+    return message;
+  }
+
   // 给不在siteIds列表中的用户广播action
   broadcast(repo, action, siteIds) {
     let keys = []
@@ -34,7 +41,8 @@ export default class SessionService  // 会话服务接口
     }
     keys.forEach((eachSid) => {
       if (!siteIds.includes(eachSid)) {
-        this.sessionManager.sendActionById(eachSid, action)
+        let message = this.action2Message(action);
+        this.sessionManager.sendActionById(eachSid, message)
       }
     });
   }
@@ -46,7 +54,8 @@ export default class SessionService  // 会话服务接口
       keys.push(key);
     }
     keys.forEach((eachSid) => {
-      this.sessionManager.sendActionById(eachSid, action);
+      let message = this.action2Message(action);
+      this.sessionManager.sendActionById(eachSid, message);
     });
   }
 

@@ -1,5 +1,5 @@
-import { MessageType } from './BaseMessage';
-import Action from '../action/Action.js';
+import BaseMessage,{MessageType} from './BaseMessage.js'
+import Action from '../action/Action.js'
 
 export default class WebSocketMessage extends BaseMessage {
   data;

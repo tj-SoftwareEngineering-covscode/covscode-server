@@ -121,7 +121,7 @@ export default class Repository
    */
   openFile(openFileAction)
   {
-    this.repoEditor.openFile(openFileAction.path, openFileAction.name)
+    this.repoEditor.openFile(openFileAction.path)
   }
 
   /**
