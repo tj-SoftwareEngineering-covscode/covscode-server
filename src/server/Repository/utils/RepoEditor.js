@@ -111,8 +111,8 @@ export default class RepoEditor
       if (isFile) {
         unlinkSync(fullPath)
       } else {
-        //this.emptyDir(fullPath)
-        //this.rmEmptyDir(fullPath)
+        this.emptyDir(fullPath)
+        this.rmEmptyDir(fullPath)
         rmdirSync(fullPath)
       }
     } catch (error) {
