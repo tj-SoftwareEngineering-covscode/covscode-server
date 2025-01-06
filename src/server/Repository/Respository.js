@@ -100,6 +100,7 @@ export default class Repository
     if (siteId == null) {
       return
     }
+    this.userMap.delete(siteId)
   }
 
   /**

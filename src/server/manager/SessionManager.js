@@ -23,7 +23,13 @@ export default class SessionManager
   {
     this.sessionMap.set(siteId,session)
   }
-
+  
+  // 删除会话
+  deleteSession(siteId)
+  {
+    this.sessionMap.delete(siteId)
+  }
+  
   // 根据id获取会话
   getSessionById(siteId) {
     if (this.sessionMap.has(siteId)) {
