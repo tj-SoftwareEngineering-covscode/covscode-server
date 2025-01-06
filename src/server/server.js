@@ -15,19 +15,24 @@ const port = 3000
 const app = express()
 const { app: expressWsApp } = expressWs(app);
 
-const sharedbService = ShareDBManager.getInstance().sharedbService  // 从单例中获取对象
+// 从单例中获取对象
+const sharedbService = ShareDBManager.getInstance().sharedbService  
 
 // 数据映射
 let dataGenerator = new JsonConversion();
 
 // 存储二进制数据
 let binaryManager = new BinaryManager();
+
 // 存储session数据以及分配SiteId(可以视作每个Session的ID)
 let sessionManager = new SessionManager();
+
 // 管理User信息
 let userManager = new UserManager();
+
 // 管理仓库信息
 let repoManager = new RepoManager();
+
 // 创造sessionService，来进行相关操作
 let sessionService = new SessionService(
   binaryManager,
@@ -40,12 +45,15 @@ app.listen(port, () => {
     console.log("Express 服务器已启动，端口为" + port);
 });
 
+// 监听websocket连接
 app.ws("/websocket", async (ws, req) => {  // websocket接口路由
     console.log("连接已建立");
     // 为客户端设置siteId
     let siteId = sessionManager.getSiteId()
+    // 将siteId和ws绑定
     sessionManager.addSession(siteId,ws) // 创建新的会话
 
+    // 监听websocket消息
     ws.on("message",async(message)=>{
         if(typeof message === "string")   // 对不同的action执行不同的action
         {
@@ -62,8 +70,6 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
 
     // 监听关闭事件（表示用户退出会话）
     ws.on("close",()=>{
-       // TODO:
-
         console.log("连接已经关闭");
     })
     // 返回给客户端siteId
@@ -73,12 +79,16 @@ app.ws("/websocket", async (ws, req) => {  // websocket接口路由
 });
 
 
+// 监听sharedb连接
 app.ws("/sharedb",async (ws,req)=>{  // sharedb接口路由
  console.log("sharedb启动")
- const sharedbStream = new WebSocketJSONStream(ws)  // 将Ws数据流转化为sharedb需要的json数据流
- sharedbService.listen(sharedbStream) // 监听websocket信息
- 
- ws.on("message",async (message)=>{  // 调试，输出接收到的信息
+ // 将Ws数据流转化为sharedb需要的json数据流
+ const sharedbStream = new WebSocketJSONStream(ws)  
+ // 监听websocket信息
+ sharedbService.listen(sharedbStream) 
+
+ // 调试，输出接收到的信息  
+ ws.on("message",async (message)=>{  
     console.log(message)
  })
 

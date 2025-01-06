@@ -43,7 +43,8 @@ export default class JsonConversion {
     return null
   }
 
-// 将对象转换为json格式
+  // 将对象转换为json格式
+  //处理行为数据转换
   handleObjectData(data) {
     console.log("data:",data)
     try {

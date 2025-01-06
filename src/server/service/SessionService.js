@@ -15,7 +15,8 @@ import fs from 'fs'
 
 export default class SessionService  // 会话服务接口
 {
-  constructor(binaryManager,sessionManager,repoManager,userManager)  // 初始化
+  // 初始化
+  constructor(binaryManager,sessionManager,repoManager,userManager)
   {
     this.repoLocation = "./src/tmp"
     this.sessionManager = sessionManager

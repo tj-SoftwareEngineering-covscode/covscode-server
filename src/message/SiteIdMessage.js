@@ -8,4 +8,11 @@ export default class SiteIdMessage extends BaseMessage {
     super(MessageType.SiteIdMessage);
     this.siteId = id;
   }
+  /**
+   * 格式示例
+   * {
+   *   messageType: 'SiteIdMessage',
+   *   siteId: '123',
+   * }
+   */
 }

@@ -62,7 +62,7 @@ export default class RepoEditor
   
   /**
   * 删除文件夹下所有问价及将文件夹下所有文件清空
-  * @param {*} path 
+  * @param {string} path 
   */
   emptyDir(path) {
     const files = fs.readdirSync(path);
@@ -80,7 +80,7 @@ export default class RepoEditor
 
   /**
   * 删除指定路径下的所有空文件夹
-  * @param {*} path 
+  * @param {string} path 
   */
   rmEmptyDir(path, level=0) {
     const files = fs.readdirSync(path);

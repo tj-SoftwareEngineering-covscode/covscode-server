@@ -1,3 +1,4 @@
+// 仓库当中的用户
 export default class RepoUser
 {
   constructor(userId,repoId,siteId)

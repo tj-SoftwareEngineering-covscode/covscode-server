@@ -1,0 +1,6 @@
+services:
+  websocket-server:
+    build: .
+    ports:
+      - "8080:8080"  # 映射宿主机的 8080 端口到容器的 8080 端口
+    restart: always  # 确保容器在崩溃后自动重启

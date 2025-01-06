@@ -7,4 +7,19 @@ export default class NodeDeleteAction extends Action{
     this.name=data.name
     this.isFile=data.isFile
   }
+  /**
+   * 格式
+   * {
+   *   actionType: 'NodeDeleteAction',
+   *   clientUser: {
+   *     userId: '123',
+   *     siteId: '123',
+   *     repoId: '123',
+   *   },
+   *   path: '/123/123/123.txt',
+   *   name: '123.txt',
+   *   isFile: true,
+   *   time: '2024-01-01 12:00:00',
+   * }
+   */
 }
